@@ -1,0 +1,152 @@
+<div class="min-h-screen bg-[#F5EFEA] py-12 px-6 font-sans" dir="rtl">
+  <div class="max-w-7xl mx-auto">
+    
+    <!-- Header Title -->
+    <div class="text-center mb-10">
+      <span class="bg-[#C85A32] text-white text-xs font-semibold px-4 py-1.5 rounded-full inline-block mb-2">
+        قائمة الطعام الملكية
+      </span>
+      <h1 class="text-4xl font-extrabold text-[#262626] mb-3">اختر ما تشتهيه من أطباقنا</h1>
+      <p class="text-gray-600">تشكيلة واسعة من الأطباق الشرقية والغربية المحضرة بكل حب وعناية</p>
+    </div>
+
+    <!-- Category Filter Buttons -->
+    <div class="flex flex-wrap justify-center gap-3 mb-12">
+      <button (click)="filterCategory('all')" 
+              [class.bg-[#262626]]="selectedCategory() === 'all'"
+              [class.text-white]="selectedCategory() === 'all'"
+              [class.bg-white]="selectedCategory() !== 'all'"
+              [class.text-gray-700]="selectedCategory() !== 'all'"
+              class="px-6 py-3 rounded-2xl font-bold shadow-sm border border-gray-200 transition cursor-pointer">
+        الكل
+      </button>
+      <button (click)="filterCategory('mains')" 
+              [class.bg-[#262626]]="selectedCategory() === 'mains'"
+              [class.text-white]="selectedCategory() === 'mains'"
+              [class.bg-white]="selectedCategory() !== 'mains'"
+              [class.text-gray-700]="selectedCategory() !== 'mains'"
+              class="px-6 py-3 rounded-2xl font-bold shadow-sm border border-gray-200 transition cursor-pointer">
+        الأطباق الرئيسية
+      </button>
+      <button (click)="filterCategory('appetizers')" 
+              [class.bg-[#262626]]="selectedCategory() === 'appetizers'"
+              [class.text-white]="selectedCategory() === 'appetizers'"
+              [class.bg-white]="selectedCategory() !== 'appetizers'"
+              [class.text-gray-700]="selectedCategory() !== 'appetizers'"
+              class="px-6 py-3 rounded-2xl font-bold shadow-sm border border-gray-200 transition cursor-pointer">
+        المقبلات
+      </button>
+      <button (click)="filterCategory('soups')" 
+              [class.bg-[#262626]]="selectedCategory() === 'soups'"
+              [class.text-white]="selectedCategory() === 'soups'"
+              [class.bg-white]="selectedCategory() !== 'soups'"
+              [class.text-gray-700]="selectedCategory() !== 'soups'"
+              class="px-6 py-3 rounded-2xl font-bold shadow-sm border border-gray-200 transition cursor-pointer">
+        الشوربة
+      </button>
+      <button (click)="filterCategory('desserts')" 
+              [class.bg-[#262626]]="selectedCategory() === 'desserts'"
+              [class.text-white]="selectedCategory() === 'desserts'"
+              [class.bg-white]="selectedCategory() !== 'desserts'"
+              [class.text-gray-700]="selectedCategory() !== 'desserts'"
+              class="px-6 py-3 rounded-2xl font-bold shadow-sm border border-gray-200 transition cursor-pointer">
+        الحلويات
+      </button>
+      <button (click)="filterCategory('drinks')" 
+              [class.bg-[#262626]]="selectedCategory() === 'drinks'"
+              [class.text-white]="selectedCategory() === 'drinks'"
+              [class.bg-white]="selectedCategory() !== 'drinks'"
+              [class.text-gray-700]="selectedCategory() !== 'drinks'"
+              class="px-6 py-3 rounded-2xl font-bold shadow-sm border border-gray-200 transition cursor-pointer">
+        المشروبات
+      </button>
+    </div>
+
+    <!-- Dishes Grid (Displays max 6 items per page) -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
+      @for (dish of paginatedDishes(); track dish.id) {
+        <div class="bg-white rounded-3xl shadow-md overflow-hidden hover:shadow-xl transition duration-300 border border-gray-100 flex flex-col justify-between relative">
+          
+          <!-- Badge if available -->
+          @if (dish.badge) {
+            <span class="absolute top-4 right-4 bg-[#C85A32] text-white text-xs font-bold px-3 py-1 rounded-full shadow-md z-10">
+              {{ dish.badge }}
+            </span>
+          }
+
+          <div>
+            <img [src]="dish.image" [alt]="dish.name" class="w-full h-48 object-cover">
+            <div class="p-6">
+              <div class="flex justify-between items-center mb-2">
+                <h3 class="font-bold text-xl text-[#262626]">{{ dish.name }}</h3>
+                <span class="text-[#C85A32] font-extrabold text-lg">${{ dish.price.toFixed(2) }}</span>
+              </div>
+              <p class="text-gray-500 text-sm mb-6 leading-relaxed">{{ dish.description }}</p>
+            </div>
+          </div>
+
+          <!-- Buttons: Details (RouterLink) & Add to Cart -->
+          <div class="p-6 pt-0 grid grid-cols-2 gap-3">
+            <a [routerLink]="['/menu', dish.id]" 
+               class="text-center bg-[#F5EFEA] hover:bg-[#262626] hover:text-white text-[#262626] font-bold py-3 rounded-xl transition duration-300 text-sm flex items-center justify-center">
+              التفاصيل
+            </a>
+            <button (click)="addToCart(dish)" 
+                    class="text-center bg-[#C85A32] hover:bg-[#b04d2a] text-white font-bold py-3 rounded-xl shadow-md transition duration-300 text-sm cursor-pointer">
+              أضف للسلة
+            </button>
+          </div>
+        </div>
+      }
+    </div>
+
+    <!-- Pagination Controls -->
+    @if (totalPages() > 1) {
+      <div class="flex justify-center items-center gap-2 mt-8">
+        
+        <!-- Previous Button -->
+        <button (click)="changePage(currentPage() - 1)" 
+                [disabled]="currentPage() === 1"
+                class="px-4 py-2 rounded-xl bg-white border border-gray-200 text-[#262626] font-bold disabled:opacity-40 disabled:cursor-not-allowed hover:bg-[#262626] hover:text-white transition cursor-pointer">
+          السابق
+        </button>
+
+        <!-- Page Numbers -->
+        @for (page of [].constructor(totalPages()); track $index) {
+          <button (click)="changePage($index + 1)"
+                  [class.bg-[#C85A32]]="currentPage() === ($index + 1)"
+                  [class.text-white]="currentPage() === ($index + 1)"
+                  [class.bg-white]="currentPage() !== ($index + 1)"
+                  [class.text-[#262626]]="currentPage() !== ($index + 1)"
+                  class="w-10 h-10 rounded-xl font-bold border border-gray-200 shadow-sm transition cursor-pointer">
+            {{ $index + 1 }}
+          </button>
+        }
+
+        <!-- Next Button -->
+        <button (click)="changePage(currentPage() + 1)" 
+                [disabled]="currentPage() === totalPages()"
+                class="px-4 py-2 rounded-xl bg-white border border-gray-200 text-[#262626] font-bold disabled:opacity-40 disabled:cursor-not-allowed hover:bg-[#262626] hover:text-white transition cursor-pointer">
+          التالي
+        </button>
+
+      </div>
+    }
+
+  </div>
+</div>
+
+<!-- Toast Notification (3 seconds) -->
+@if (toastMessage()) {
+  <div class="fixed bottom-6 left-6 z-50 bg-[#262626] text-white px-6 py-4 rounded-2xl shadow-2xl border border-[#C85A32]/40 flex items-center gap-4 transition-all duration-300">
+    <div class="w-9 h-9 rounded-full bg-[#6B7B54] text-white flex items-center justify-center font-bold text-base shrink-0 shadow-sm">
+      ✓
+    </div>
+    <div class="flex flex-col">
+      <span class="font-bold text-sm text-white">{{ toastMessage() }}</span>
+      <a routerLink="/cart" class="text-xs text-[#C85A32] hover:underline font-semibold mt-0.5">
+        عرض السلة وإتمام الطلب ←
+      </a>
+    </div>
+  </div>
+}

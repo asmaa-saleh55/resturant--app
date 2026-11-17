@@ -1,0 +1,179 @@
+<div class="min-h-screen bg-[#F5EFEA] text-[#262626] font-sans" dir="rtl">
+    
+  <!-- 1. Hero Section -->
+  <section class="relative bg-[#262626] text-white py-20 px-6 overflow-hidden">
+    <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-12 items-center relative z-10">
+      
+      <!-- Text Content -->
+      <div class="space-y-6">
+        <span class="bg-[#C85A32] text-white text-sm font-semibold px-4 py-1.5 rounded-full inline-block">
+          أصالة المذاق الشرقي
+        </span>
+        <h1 class="text-4xl md:text-6xl font-extrabold leading-tight">
+          استكشف أشهى <span class="text-[#C85A32]">النكهات</span> الأصلية
+        </h1>
+        <p class="text-gray-300 text-lg leading-relaxed">
+          استمتع بتجربة طعام لا تُنسى، أطباق معدة بعناية من أجود المكونات الطازجة لتصلك ساخنة ولذيذة حتى باب بيتك.
+        </p>
+        <div class="flex gap-4 pt-4">
+          <a routerLink="/menu" 
+             class="inline-block bg-[#b04d2b] hover:bg-[#C85A32] text-white font-bold px-8 py-4 rounded-xl shadow-lg border border-white/20 transition duration-300">
+            اطلب الآن
+          </a>
+          <a routerLink="/about" class="border border-white hover:bg-white hover:text-[#262626] font-semibold px-8 py-3.5 rounded-xl transition duration-300">
+            قصتنا
+          </a>
+        </div>
+      </div>
+
+      <!-- Image Container with Smooth Fade -->
+      <div class="relative flex justify-center items-center h-[420px]">
+        <div class="relative w-full h-full max-w-lg rounded-3xl overflow-hidden shadow-2xl">
+          <img src="https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=600&q=80" 
+               alt="Delicious Dish" 
+               class="w-full h-full object-cover">
+          <div class="absolute inset-0 bg-gradient-to-r from-transparent via-[#262626]/60 to-[#262626]"></div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+<!-- 2. Featured Dishes Section -->
+<section class="py-20 px-6 max-w-7xl mx-auto">
+  <div class="text-center mb-12">
+    <h2 class="text-3xl font-extrabold text-[#262626] mb-3">الأطباق الأكثر طلباً</h2>
+    <p class="text-gray-600 text-lg">اختيارات متميزة ينصح بها الشيف وتجمع عليها أذواق عملائنا</p>
+  </div>
+
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+    @for (dish of featuredDishes; track dish.id) {
+      <div class="bg-white rounded-3xl shadow-md overflow-hidden hover:shadow-xl transition duration-300 border border-gray-100 flex flex-col justify-between">
+        <div>
+          <img [src]="dish.image" [alt]="dish.name" class="w-full h-48 object-cover">
+          <div class="p-6">
+            <div class="flex justify-between items-center mb-2">
+              <h3 class="font-bold text-xl text-[#262626]">{{ dish.name }}</h3>
+              <span class="text-[#C85A32] font-extrabold text-lg">${{ dish.price.toFixed(2) }}</span>
+            </div>
+            <p class="text-gray-500 text-sm mb-6">{{ dish.description }}</p>
+          </div>
+        </div>
+
+        <!-- الأزرار الحقيقية -->
+      <!-- الأزرار المعدلة (الإضافة للسلة فقط من غير نقل) -->
+      <div class="p-6 pt-0 grid grid-cols-2 gap-3">
+        <button (click)="openDetails(dish)" 
+                class="text-center bg-[#F5EFEA] hover:bg-[#262626] hover:text-white text-[#262626] font-bold py-3 rounded-xl transition duration-300 text-sm cursor-pointer">
+          التفاصيل
+        </button>
+        <button (click)="addToCart(dish, false)" 
+                class="text-center bg-[#C85A32] hover:bg-[#b04d2a] text-white font-bold py-3 rounded-xl shadow-md transition duration-300 text-sm cursor-pointer">
+          أضف للسلة
+        </button>
+      </div>
+      </div>
+    }
+  </div>
+
+  <!-- زر عرض قائمة الطعام تحت الأطباق -->
+  <div class="text-center mt-12">
+    <a routerLink="/menu" class="inline-flex items-center gap-3 bg-[#262626] hover:bg-[#C85A32] text-white font-extrabold px-10 py-4 rounded-2xl shadow-xl transition duration-300 text-lg">
+      <span>تصفح قائمة الطعام بالكامل</span>
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+      </svg>
+    </a>
+  </div>
+</section>
+
+<!-- نافذة التفاصيل السريعة (Quick View Modal) -->
+@if (selectedDish) {
+  <div class="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4" (click)="closeDetails()">
+    <div class="bg-white rounded-3xl max-w-md w-full overflow-hidden shadow-2xl animate-fadeIn" (click)="$event.stopPropagation()">
+      <img [src]="selectedDish.image" [alt]="selectedDish.name" class="w-full h-56 object-cover">
+      <div class="p-6 space-y-4">
+        <div class="flex justify-between items-center">
+          <h3 class="text-2xl font-extrabold text-[#262626]">{{ selectedDish.name }}</h3>
+          <span class="text-xl font-extrabold text-[#C85A32]">${{ selectedDish.price.toFixed(2) }}</span>
+        </div>
+        <p class="text-gray-600 leading-relaxed">{{ selectedDish.description }}</p>
+        <div class="pt-4 flex gap-3">
+          <button (click)="addToCart(selectedDish, false); closeDetails()" 
+                  class="flex-1 bg-[#C85A32] hover:bg-[#b04d2a] text-white font-bold py-3.5 rounded-xl transition shadow-md cursor-pointer">
+            أضف إلى السلة
+          </button>
+          <button (click)="closeDetails()" 
+                  class="px-6 bg-gray-100 hover:bg-gray-200 text-gray-700 font-bold py-3.5 rounded-xl transition cursor-pointer">
+            إغلاق
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+}
+
+<!-- 3. How It Works Section (Dark Background with Visible Arrows Between Cards) -->
+<section class="bg-[#262626] text-white py-24 px-6 relative">
+  <div class="max-w-7xl mx-auto text-center">
+    <span class="text-[#C85A32] text-sm font-bold tracking-wider uppercase mb-3 block">خطوات بسيطة وسريعة</span>
+    <h2 class="text-3xl md:text-4xl font-extrabold mb-16">كيف تطلب طعامك المفضل؟</h2>
+    
+    <!-- استخدام Flexbox عشان الكاردات والأسهم تترتب جنب بعض بانتظام -->
+    <div class="flex flex-col md:flex-row items-center justify-center gap-8">
+      
+      <!-- Step 1 -->
+      <div class="bg-[#333333] border border-white/10 p-8 rounded-3xl shadow-lg flex flex-col items-center text-center w-full md:w-1/3">
+        <div class="w-16 h-16 bg-[#C85A32] text-white rounded-2xl flex items-center justify-center text-2xl font-black mb-6 shadow-md">1</div>
+        <h3 class="font-extrabold text-xl mb-3 text-white">اختر وجبتك</h3>
+        <p class="text-gray-300 text-base leading-relaxed">تصفح قائمة الطعام الغنية بالأطباق الشهية واختر ما يناسب شهيتك بدقة.</p>
+      </div>
+
+      <!-- السهم الأول بين 1 و 2 -->
+      <div class="hidden md:flex text-[#C85A32] shrink-0">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 rotate-180 animate-pulse" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+        </svg>
+      </div>
+
+      <!-- Step 2 -->
+      <div class="bg-[#333333] border border-white/10 p-8 rounded-3xl shadow-lg flex flex-col items-center text-center w-full md:w-1/3">
+        <div class="w-16 h-16 bg-[#6B7B54] text-white rounded-2xl flex items-center justify-center text-2xl font-black mb-6 shadow-md">2</div>
+        <h3 class="font-extrabold text-xl mb-3 text-white">أكد الطلب</h3>
+        <p class="text-gray-300 text-base leading-relaxed">أضف وجبتك للسلة وحدد عنوان التوصيل وطريقة الدفع بكل راحة وسهولة.</p>
+      </div>
+
+      <!-- السهم الثاني بين 2 و 3 -->
+      <div class="hidden md:flex text-[#C85A32] shrink-0">
+        <svg xmlns="http://www.w3.org/2000/Spaces" class="h-10 w-10 rotate-180 animate-pulse" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+        </svg>
+      </div>
+
+      <!-- Step 3 -->
+      <div class="bg-[#333333] border border-white/10 p-8 rounded-3xl shadow-lg flex flex-col items-center text-center w-full md:w-1/3">
+        <div class="w-16 h-16 bg-[#C85A32] text-white rounded-2xl flex items-center justify-center text-2xl font-black mb-6 shadow-md">3</div>
+        <h3 class="font-extrabold text-xl mb-3 text-white">استمتع بوجبتك</h3>
+        <p class="text-gray-300 text-base leading-relaxed">تتبع حالة طلبك لحظة بلحظة حتى يصلك طازجاً وساخناً لحد باب بيتك.</p>
+      </div>
+
+    </div>
+  </div>
+</section>
+ 
+<!-- كارد إشعار الإضافة بنجاح (Toast Notification) -->
+@if (toastMessage()) {
+  <div class="fixed bottom-6 left-6 z-50 bg-[#262626] text-white px-6 py-4 rounded-2xl shadow-2xl border border-[#C85A32]/40 flex items-center gap-4 transition-all duration-300">
+    <div class="w-9 h-9 rounded-full bg-[#6B7B54] text-white flex items-center justify-center font-bold text-base shrink-0 shadow-sm">
+      ✓
+    </div>
+    <div class="flex flex-col">
+      <span class="font-bold text-sm text-white">{{ toastMessage() }}</span>
+      <a routerLink="/cart" class="text-xs text-[#C85A32] hover:underline font-semibold mt-0.5">
+        عرض السلة وإتمام الطلب ←
+      </a>
+    </div>
+  </div>
+}
+</div>

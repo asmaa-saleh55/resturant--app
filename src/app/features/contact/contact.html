@@ -1,0 +1,120 @@
+<div class="min-h-screen bg-[#F5EFEA] text-[#262626] py-16 px-6" dir="rtl">
+    <div class="max-w-7xl mx-auto">
+  
+      <!-- Header Title -->
+      <div class="text-center max-w-2xl mx-auto mb-16 space-y-3">
+        <span class="bg-[#C85A32] text-white text-sm font-semibold px-4 py-1.5 rounded-full inline-block">
+          يسعدنا تواصلكم
+        </span>
+        <h1 class="text-4xl font-extrabold text-[#262626]">نحن هنا دائماً لخدمتك</h1>
+        <p class="text-gray-600">تفضل بزيارتنا أو راسلنا لأي استفسار، فريقنا جاهز للرد عليك في أسرع وقت.</p>
+      </div>
+  
+      <!-- Main Grid -->
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+        
+      <!-- Right Side: Info & Interactive Map Shape (5 Columns) -->
+      <div class="lg:col-span-5 flex flex-col justify-between gap-6 h-full">
+        
+        <!-- Info Card -->
+        <div class="bg-white p-8 rounded-3xl shadow-sm border border-gray-100 space-y-6 flex-grow">
+          <h3 class="text-2xl font-bold text-[#262626]">معلومات الاتصال</h3>
+          <br>
+          <!-- Address (الهلالي) -->
+          <div class="flex items-start gap-4 text-gray-600">
+            <div class="w-12 h-12 rounded-2xl bg-[#C85A32]/10 text-[#C85A32] flex items-center justify-center text-xl font-bold flex-shrink-0">📍</div>
+            <div>
+              <p class="font-bold text-[#262626]">العنوان</p>
+              <p class="text-sm text-gray-500 mt-1">منطقة الهلالي، الشارع الرئيسي، بجوار الخدمات</p>
+            </div>
+          </div>
+
+          <!-- Phone -->
+          <div class="flex items-start gap-4 text-gray-600">
+            <div class="w-12 h-12 rounded-2xl bg-[#6B7B54]/10 text-[#6B7B54] flex items-center justify-center text-xl font-bold flex-shrink-0">📞</div>
+            <div>
+              <p class="font-bold text-[#262626]">رقم الهاتف</p>
+              <a href="tel:01005031669" dir="ltr" class="text-sm font-semibold text-[#C85A32] hover:underline block mt-1">+20 100 503 1669</a>
+            </div>
+          </div>
+
+          <!-- Email -->
+          <div class="flex items-start gap-4 text-gray-600">
+            <div class="w-12 h-12 rounded-2xl bg-[#262626]/10 text-[#262626] flex items-center justify-center text-xl font-bold flex-shrink-0">✉️</div>
+            <div>
+              <p class="font-bold text-[#262626]">البريد الإلكتروني</p>
+              <p class="text-sm text-gray-500 mt-1">support@matami-aseel.com</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Interactive Map Card (بقى واخد ارتفاع متناسق ومظبوط) -->
+        <div class="bg-white p-4 rounded-3xl shadow-sm border border-gray-100 relative overflow-hidden group">
+          <div class="absolute top-3 right-3 z-10 bg-white/90 backdrop-blur-md px-3 py-1 rounded-xl text-xs font-bold shadow-sm">
+            فرع الهلالي 📌
+          </div>
+          <div class="w-full h-44 rounded-2xl bg-gray-200 overflow-hidden relative">
+            <img src="https://images.unsplash.com/photo-1526778548025-fa2f459cd5c1?auto=format&fit=crop&w=600&q=80" 
+                 alt="Map location" 
+                 class="w-full h-full object-cover group-hover:scale-105 transition duration-500 opacity-80">
+            <div class="absolute inset-0 bg-[#C85A32]/10 flex items-center justify-center">
+              <span class="bg-[#262626] text-white text-xs font-bold px-4 py-2 rounded-xl shadow-lg flex items-center gap-2">
+                📍 نحن هنا في الهلالي
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+  
+        <!-- Left Side: Contact Form (7 Columns) -->
+        <div class="lg:col-span-7 bg-white p-8 md:p-10 rounded-3xl shadow-md border border-gray-100">
+          @if (submitted) {
+            <div class="text-center py-20 space-y-4">
+              <div class="w-20 h-20 bg-[#6B7B54] text-white rounded-full flex items-center justify-center text-3xl mx-auto shadow-md">✓</div>
+              <h3 class="text-2xl font-bold">تم إرسال رسالتك بنجاح!</h3>
+              <p class="text-gray-500">شكراً لتواصلك معنا، سنقوم بالرد عليك في أقرب وقت ممكن.</p>
+            </div>
+          } @else {
+            <form (ngSubmit)="sendMessage()" class="space-y-6">
+              <div>
+                <h3 class="text-2xl font-bold text-[#262626] mb-1">أرسل لنا رسالة مباشرة</h3>
+                <p class="text-sm text-gray-500">املأ البيانات أدناه وسنتواصل معك فوراً.</p>
+              </div>
+              
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                  <label class="block text-sm font-semibold mb-2">الاسم </label>
+                  <input type="text" [(ngModel)]="formData.name" name="name" required placeholder="أدخل اسمك هنا" 
+                         class="w-full px-4 py-3.5 rounded-xl border border-gray-200 focus:outline-none focus:border-[#C85A32] bg-[#F5EFEA]/30">
+                </div>
+  
+                <div>
+                  <label class="block text-sm font-semibold mb-2">رقم الهاتف</label>
+                  <input type="text" [(ngModel)]="formData.phone" name="phone" placeholder="01xxxxxxxx" 
+                         class="w-full px-4 py-3.5 rounded-xl border border-gray-200 focus:outline-none focus:border-[#C85A32] bg-[#F5EFEA]/30">
+                </div>
+              </div>
+  
+              <div>
+                <label class="block text-sm font-semibold mb-2">البريد الإلكتروني</label>
+                <input type="email" [(ngModel)]="formData.email" name="email" placeholder="name@example.com" 
+                         class="w-full px-4 py-3.5 rounded-xl border border-gray-200 focus:outline-none focus:border-[#C85A32] bg-[#F5EFEA]/30">
+              </div>
+  
+              <div>
+                <label class="block text-sm font-semibold mb-2">رسالتك أو استفسارك</label>
+                <textarea [(ngModel)]="formData.message" name="message" rows="5" required placeholder="اكتب رسالتك أو اقتراحك هنا..." 
+                          class="w-full px-4 py-3.5 rounded-xl border border-gray-200 focus:outline-none focus:border-[#C85A32] bg-[#F5EFEA]/30"></textarea>
+              </div>
+  
+              <button type="submit" class="w-full bg-[#C85A32] hover:bg-[#b04d2a] text-white font-bold py-4 rounded-xl shadow-lg transition duration-300">
+                إرسال الرسالة
+              </button>
+            </form>
+          }
+        </div>
+  
+      </div>
+  
+    </div>
+  </div>

@@ -1,0 +1,130 @@
+<div class="min-h-screen bg-[#F5EFEA] py-12 px-6 font-sans" dir="rtl">
+  <div class="max-w-6xl mx-auto">
+    
+    <!-- Header -->
+    <div class="text-center mb-10">
+      <h1 class="text-4xl font-extrabold text-[#262626] mb-2">سلة المشتريات وإتمام الطلب</h1>
+      <p class="text-gray-600">أضف اللمسات الأخيرة واستكمل بيانات التوصيل الخاصة بك</p>
+    </div>
+
+    <!-- الحالة الأولى: لو الطلب تم بنجاح (Success Screen) -->
+    @if (orderCompleted) {
+      <div class="bg-white rounded-3xl p-12 text-center shadow-xl max-w-xl mx-auto border border-gray-100 animate-fadeIn">
+        <div class="w-20 h-20 bg-[#6B7B54] text-white rounded-full flex items-center justify-center text-4xl mx-auto mb-6 shadow-md">
+          ✓
+        </div>
+        <h2 class="text-3xl font-extrabold text-[#262626] mb-3">تم استلام طلبك بنجاح!</h2>
+        <p class="text-gray-600 mb-6 leading-relaxed">
+          شكراً لتطلبك من <span class="font-bold text-[#C85A32]">مطعمي الأصيل</span>. جاري تجهيز طلبك الآن وسيقوم فريقنا بالتواصل معك قريباً.
+        </p>
+        <div class="bg-[#F5EFEA] p-4 rounded-2xl mb-8 text-sm text-gray-700">
+          <p class="font-bold mb-1">رقم الطلب: #ORD-9482</p>
+          <p>الوقت المتوقع للتوصيل: <span class="font-bold text-[#C85A32]">30 - 45 دقيقة</span></p>
+        </div>
+        <a routerLink="/menu" class="inline-block bg-[#262626] hover:bg-[#C85A32] text-white font-bold px-8 py-3.5 rounded-2xl transition">
+          العودة لتصفح قائمة الطعام
+        </a>
+      </div>
+    } 
+    
+    <!-- الحالة الثانية: السلة فارغة -->
+    @else if (cartService.cartItems.length === 0) {
+      <div class="bg-white rounded-3xl p-12 text-center shadow-md max-w-md mx-auto border border-gray-100">
+        <div class="text-6xl mb-4">🛒</div>
+        <h2 class="text-2xl font-bold text-[#262626] mb-2">سلتك فارغة تماماً</h2>
+        <p class="text-gray-500 mb-6">لم تقم بإضافة أي أطباق للسلة حتى الآن.</p>
+        <a routerLink="/menu" class="inline-block bg-[#C85A32] hover:bg-[#b04d2a] text-white font-bold px-8 py-3.5 rounded-2xl transition shadow-md">
+          تصفح قائمة الطعام الآن
+        </a>
+      </div>
+    } 
+    
+    <!-- الحالة الثالثة: عرض المنتجات ونموذج إدخال البيانات (Checkout) -->
+    @else {
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        
+        <!-- تفاصيل المنتجات في السلة (2 أعمدة) -->
+        <div class="lg:col-span-2 space-y-4">
+          <div class="bg-white rounded-3xl p-6 shadow-md border border-gray-100">
+            <h2 class="text-xl font-extrabold text-[#262626] mb-6 pb-4 border-b border-gray-100">أطباقك المضافة</h2>
+            
+            <div class="space-y-4">
+              @for (item of cartItems; track $index; let i = $index) {
+                <div class="flex items-center justify-between p-4 rounded-2xl bg-[#F5EFEA]/40 border border-gray-100 gap-4">
+                  <div class="flex items-center gap-4">
+                    <img [src]="item.image" [alt]="item.name" class="w-16 h-16 object-cover rounded-xl shadow-sm">
+                    <div>
+                      <h3 class="font-bold text-lg text-[#262626]">{{ item.name }}</h3>
+                      @if (item.addons && item.addons.length > 0) {
+                        <p class="text-xs text-gray-500 mt-0.5">الإضافات: {{ item.addons.join(', ') }}</p>
+                      }
+                      <span class="text-[#C85A32] font-extrabold text-sm">${{ item.unitTotalPrice.toFixed(2) }} (الكمية: {{ item.quantity }})</span>
+                    </div>
+                  </div>
+                  
+                  <!-- زر حذف المنتج -->
+                  <button (click)="removeItem(i)" 
+                          class="p-2.5 rounded-xl bg-red-50 hover:bg-red-100 text-red-600 transition cursor-pointer flex items-center justify-center shrink-0"
+                          title="حذف المنتج">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                    </svg>
+                  </button>
+                </div>
+              }
+            </div>
+          </div>
+        </div>
+
+        <!-- نموذج بيانات العميل والفاتورة (عمود واحد) -->
+        <div class="lg:col-span-1">
+          <div class="bg-white rounded-3xl p-6 shadow-md border border-gray-100 sticky top-6">
+            <h2 class="text-xl font-extrabold text-[#262626] mb-6 pb-4 border-b border-gray-100">بيانات التوصيل</h2>
+            
+            <form (submit)="submitOrder($event)" class="space-y-4">
+              <div>
+                <label class="block text-sm font-bold text-gray-700 mb-1">الاسم الكامل</label>
+                <input type="text" [(ngModel)]="customer.name" name="name" required placeholder="أدخل اسمك الكريم" 
+                       class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:border-[#C85A32] text-sm bg-gray-50">
+              </div>
+
+              <div>
+                <label class="block text-sm font-bold text-gray-700 mb-1">رقم الهاتف للتواصل</label>
+                <input type="tel" [(ngModel)]="customer.phone" name="phone" required placeholder="010xxxxxxxx" 
+                       class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:border-[#C85A32] text-sm bg-gray-50">
+              </div>
+
+              <div>
+                <label class="block text-sm font-bold text-gray-700 mb-1">عنوان التوصيل بالتفصيل</label>
+                <textarea [(ngModel)]="customer.address" name="address" required rows="3" placeholder="المدينة، الشارع، رقم الحقة، الدور..." 
+                          class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:border-[#C85A32] text-sm bg-gray-50 resize-none"></textarea>
+              </div>
+
+              <!-- ملخص الحساب -->
+              <div class="pt-4 border-t border-gray-100 space-y-2">
+                <div class="flex justify-between text-gray-600 text-sm">
+                  <span>إجمالي الأطباق</span>
+                  <span>${{ cartTotal.toFixed(2) }}</span>
+                </div>
+                <div class="flex justify-between text-gray-600 text-sm">
+                  <span>رسوم التوصيل</span>
+                  <span>$2.00</span>
+                </div>
+                <div class="flex justify-between text-[#262626] font-extrabold text-lg pt-2 border-t border-gray-100">
+                  <span>المبلغ الإجمالي</span>
+                  <span class="text-[#C85A32]">${{ (cartTotal + 2.00).toFixed(2) }}</span>
+                </div>
+              </div>
+
+              <button type="submit" class="w-full mt-6 bg-[#C85A32] hover:bg-[#b04d2a] text-white font-extrabold py-4 rounded-2xl shadow-xl transition cursor-pointer">
+                تأكيد وإتمام الطلب
+              </button>
+            </form>
+          </div>
+        </div>
+
+      </div>
+    }
+
+  </div>
+</div>

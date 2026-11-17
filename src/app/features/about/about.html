@@ -1,0 +1,102 @@
+<div class="min-h-screen bg-[#F5EFEA] py-16 px-6 font-sans" dir="rtl">
+  <div class="max-w-7xl mx-auto">
+    
+    <!-- Breadcrumbs (مسار التنقل الاحترافي) -->
+    <nav class="flex items-center gap-2 text-sm text-gray-500 mb-10 font-medium">
+      <a routerLink="/" class="hover:text-[#C85A32] transition">الرئيسية</a>
+      <span class="text-gray-300">/</span>
+      <span class="text-[#262626] font-bold">من نحن</span>
+    </nav>
+
+    <!-- Header Title -->
+    <div class="text-center max-w-2xl mx-auto mb-16">
+      <span class="bg-[#C85A32] text-white text-xs font-bold px-4 py-1.5 rounded-full inline-block mb-3 tracking-wider">
+        قصتنا وأصالتنا
+      </span>
+      <h1 class="text-4xl md:text-5xl font-black text-[#262626] mb-4">نحن لا نطبخ طعاماً فحسب، بل نصنع ذكريات لا تُنسى</h1>
+      <p class="text-gray-600 text-lg leading-relaxed">
+        رحلة بدأت بالشغف وانتهت على طاولتك، لنقدم لك أشهى الأطباق الشرقية والغربية بأعلى معايير الجودة والنظافة.
+      </p>
+    </div>
+
+    <!-- Main Content Grid: Story & Images Showcase -->
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center mb-20">
+      
+      <!-- Left: Dynamic Image Collage (صور تعبر عن الفخامة والجودة) -->
+      <div class="grid grid-cols-2 gap-4 relative">
+        <div class="space-y-4">
+          <img src="https://static.vecteezy.com/system/resources/previews/049/180/699/non_2x/tandoori-chicken-dish-on-plate-free-photo.jpg" 
+               alt="أطباق شهية" class="w-full h-64 object-cover rounded-3xl shadow-lg border-2 border-white">
+          <img src="https://kitchen.sayidaty.net/uploads/node/1632739045_node.jpeg" 
+               alt="مشاوي طازجة" class="w-full h-48 object-cover rounded-3xl shadow-lg border-2 border-white">
+        </div>
+        <div class="space-y-4 pt-8">
+          <img src="https://pic.i7lm.com/wp-content/uploads/2019/06/%D8%A7%D8%B3%D8%AA%D9%8A%D9%83-%D8%A7%D9%84%D9%84%D8%AD%D9%85-%D8%A7%D9%84%D9%85%D8%B4%D9%88%D9%8A.jpg" 
+               alt="حلويات شرقية" class="w-full h-48 object-cover rounded-3xl shadow-lg border-2 border-white">
+          <img src="https://images.unsplash.com/photo-1543339308-43e59d6b73a6?auto=format&fit=crop&w=600&q=80" 
+               alt="أكل بيتي طازج" class="w-full h-64 object-cover rounded-3xl shadow-lg border-2 border-white">
+        </div>
+        <!-- Decorative Badge -->
+        <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-[#262626] text-white p-6 rounded-full shadow-2xl border-4 border-[#F5EFEA] text-center hidden sm:block">
+          <span class="block text-2xl font-black text-[#C85A32]">100%</span>
+          <span class="text-xs font-bold tracking-wider">طازج و أصيل</span>
+        </div>
+      </div>
+
+      <!-- Right: Story Text & Values -->
+      <div class="space-y-6">
+        <h2 class="text-3xl font-extrabold text-[#262626] leading-tight">
+          سر الطعم الأصيل يكمن في التفاصيل الصغيرة والحب في كل طبق
+        </h2>
+        <p class="text-gray-600 leading-relaxed text-base">
+          في <span class="font-bold text-[#C85A32]">مطعمي الأصيل</span>، نؤمن بأن الطعام ليس مجرد وسيلة للشبع، بل هو تجربة حسية متكاملة تجمع العائلات والأصدقاء. نختار أجود أنواع اللحوم الطازجة، الخضروات اليومية من الفلاح مباشرة، والبهارات المتنقاة بعناية لنضمن لك مذاقاً فريداً يأخذك لقلب التراث مع لمسة عصرية فاخرة.
+        </p>
+
+        <!-- Features Bullets -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-4">
+          <div class="bg-white p-5 rounded-2xl shadow-sm border border-gray-100 flex items-start gap-4">
+            <div class="w-10 h-10 rounded-xl bg-[#C85A32]/10 text-[#C85A32] flex items-center justify-center font-bold text-xl shrink-0">
+              🥩
+            </div>
+            <div>
+              <h4 class="font-bold text-[#262626] mb-1">مكونات طازجة يومياً</h4>
+              <p class="text-xs text-gray-500 leading-relaxed">نرفض تجميد اللحوم، كل وجبة تُعد بيومها لتستمتع بأفضل طعم.</p>
+            </div>
+          </div>
+
+          <div class="bg-white p-5 rounded-2xl shadow-sm border border-gray-100 flex items-start gap-4">
+            <div class="w-10 h-10 rounded-xl bg-[#6B7B54]/10 text-[#6B7B54] flex items-center justify-center font-bold text-xl shrink-0">
+              🔥
+            </div>
+            <div>
+              <h4 class="font-bold text-[#262626] mb-1">شواء على الفحم الأصلي</h4>
+              <p class="text-xs text-gray-500 leading-relaxed">نستخدم الفحم الطبيعي لمنح المشاوي النكهة المدخنة المميزة.</p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- Stats / Trust Section (عدادات أو إحصائيات الثقة) -->
+    <div class="bg-[#262626] text-white rounded-3xl p-10 shadow-xl grid grid-cols-2 md:grid-cols-4 gap-8 text-center relative overflow-hidden">
+      <div class="space-y-2 relative z-10">
+        <h3 class="text-4xl md:text-5xl font-black text-[#C85A32]">+50</h3>
+        <p class="text-gray-300 text-sm font-semibold">طبق متنوع وفاخر</p>
+      </div>
+      <div class="space-y-2 relative z-10">
+        <h3 class="text-4xl md:text-5xl font-black text-[#6B7B54]">+15K</h3>
+        <p class="text-gray-300 text-sm font-semibold">عميل سعيد وراضی</p>
+      </div>
+      <div class="space-y-2 relative z-10">
+        <h3 class="text-4xl md:text-5xl font-black text-[#C85A32]">100%</h3>
+        <p class="text-gray-300 text-sm font-semibold">جودة ونظافة مضمونة</p>
+      </div>
+      <div class="space-y-2 relative z-10">
+        <h3 class="text-4xl md:text-5xl font-black text-[#6B7B54]">30 دقيقة</h3>
+        <p class="text-gray-300 text-sm font-semibold">متوسط وقت التوصيل</p>
+      </div>
+    </div>
+  </div>
+</div>

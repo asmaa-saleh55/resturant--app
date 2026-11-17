@@ -1,0 +1,52 @@
+<nav 
+  [ngClass]="isScrolled ? 'bg-[#262626]/80 backdrop-blur-md shadow-lg py-3' : 'bg-[#262626] py-4 shadow-md'"
+  class="sticky top-0 z-50 text-white transition-all duration-300 border-b border-white/10" 
+  dir="rtl">
+  
+  <div class="max-w-7xl mx-auto px-6 flex items-center justify-between">
+    
+    <!-- Logo -->
+    <a routerLink="/" class="text-2xl font-extrabold tracking-wide flex items-center gap-2">
+      <span class="text-[#C85A32]">مطعمي</span> الأصيل
+    </a>
+
+    <!-- Navigation Links -->
+    <div class="hidden md:flex items-center gap-8 font-semibold text-sm">
+      <a routerLink="/" routerLinkActive="text-[#C85A32]" [routerLinkActiveOptions]="{exact: true}" class="hover:text-[#C85A32] transition">
+        الرئيسية
+      </a>
+      <a routerLink="/menu" routerLinkActive="text-[#C85A32]" class="hover:text-[#C85A32] transition">
+        قائمة الطعام
+      </a>
+      <a routerLink="/my-orders" routerLinkActive="text-[#C85A32]" class="hover:text-[#C85A32] transition">
+        طلباتي
+      </a>
+      <a routerLink="/about" routerLinkActive="text-[#C85A32]" class="hover:text-[#C85A32] transition">
+        من نحن
+      </a>
+      <a routerLink="/contact" routerLinkActive="text-[#C85A32]" class="hover:text-[#C85A32] transition">
+        تواصل معنا
+      </a>
+    </div>
+
+    <!-- Circular Cart Icon Button -->
+    <div class="flex items-center">
+      <a routerLink="/cart" 
+         title="سلة المشتريات"
+         class="relative w-11 h-11 rounded-full bg-[#C85A32] hover:bg-[#b04d2a] text-white flex items-center justify-center shadow-md transition-transform hover:scale-105">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
+        </svg>
+
+        <!-- Badge Count -->
+        @if ((cartService.cart$ | async) && cartService.getTotalCount() > 0) {
+          <span class="absolute -top-1 -right-1 bg-white text-[#C85A32] text-[11px] font-extrabold w-5 h-5 rounded-full flex items-center justify-center shadow border border-[#C85A32]/20">
+            {{ cartService.getTotalCount() }}
+          </span>
+        }
+      </a>
+    </div>
+
+  </div>
+</nav>
